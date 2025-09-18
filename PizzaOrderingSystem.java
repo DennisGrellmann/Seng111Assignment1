@@ -27,7 +27,7 @@ public class PizzaOrderingSystem {
         while (!exit) {
             MainDisplayMenu();
             System.out.print("Please select an option (1-9): ");
-            int menuChoice = Integer.parseInt(sc.nextLine());
+            int menuChoice = InputValidation(sc, 1, 9, "Please select an option (1-9): ");
 
             switch (menuChoice) {
                 case 1:
@@ -108,6 +108,21 @@ public class PizzaOrderingSystem {
         }
         System.out.println("Cancelling the previous order...");
         // need to impletment actual code
+    }
+
+    public static int InputValidation(Scanner sc, int min, int max, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine();
+
+            if (input.matches("\\d+")) {
+                int choice = Integer.parseInt(input);
+                if (choice >= min && choice <= max) {
+                    return choice;
+                }   
+            }
+            System.out.println("Invalid input. Please enter a valid number.");
+        }
     }
 
     //main menu
