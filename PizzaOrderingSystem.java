@@ -121,6 +121,19 @@ public class PizzaOrderingSystem {
         double PreTaxTotal = pizzaTotal + addOnTotal;
         System.out.println(PreTaxTotal + "\n");
 
+        double tax = 0.10;
+        double Total = PreTaxTotal + tax;
+        System.out.println(Total + "\n");
+
+        System.out.println("---- Your Receipt ----");
+        System.out.println(" Pizza Type: " + pizzaType);
+        System.out.println(" Pizza Size: " + pizzaSize);
+        System.out.println(" Quantity: " + pizzaQuantity);
+        System.out.println("Pre-Tax Total: $" + String.format("%.2f", PreTaxTotal));
+        System.out.println("Tax (10%): $" + String.format("%.2f", tax));
+        System.out.println("Total Amount Due: $" + String.format("%.2f", Total));
+        System.out.println("----------------------\n");
+
         RecentOrderExists = true;
         // need to impletment actual code
     }
@@ -128,6 +141,7 @@ public class PizzaOrderingSystem {
 
     public static void CompareTwoOrders(Scanner sc) {
         System.out.println("Comparing two orders...\n");
+        
         // need to impletment actual code
     }
 
