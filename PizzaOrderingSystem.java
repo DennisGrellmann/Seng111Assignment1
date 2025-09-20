@@ -18,7 +18,7 @@ public class PizzaOrderingSystem {
 
     //add on tracking
     private static int ExtraCheeseCount = 0, ExtraOlivesCount = 0;
-    private static int DrinkSideCount = 0, GarlicBreadSideCount = 0;
+    private static int DrinkSideCount = 0, GarlicBreadCount = 0;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -118,16 +118,34 @@ public class PizzaOrderingSystem {
         else{
             System.out.println("No extra olives added.\n");
         }
-        double PreTaxTotal = pizzaTotal + addOnTotal;
-        System.out.println(PreTaxTotal + "\n");
+               
+        System.out.println("Would you like to add Garlic bread for $4.00? (yes/no)");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+            addOnTotal += 4.00;
+            GarlicBreadCount++;
+        }
+        else{
+            System.out.println("No Garlic bread added.\n");
+        }
 
+        System.out.println("Would you like to add a drink for $2.50? (yes/no)");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+            addOnTotal += 2.50;
+            DrinkSideCount++;
+        }
+        else{
+            System.out.println("No drink added.\n");
+        }
+ 
+        double PreTaxTotal = pizzaTotal + addOnTotal;
         double tax = 0.10;
         double Total = PreTaxTotal + tax;
-        System.out.println(Total + "\n");
+        
 
         System.out.println("---- Your Receipt ----");
         System.out.println(" Pizza Type: " + pizzaType);
         System.out.println(" Pizza Size: " + pizzaSize);
+        System.out.println("  Add-Ons: " + String.format("%.2f", addOnTotal));
         System.out.println(" Quantity: " + pizzaQuantity);
         System.out.println("Pre-Tax Total: $" + String.format("%.2f", PreTaxTotal));
         System.out.println("Tax (10%): $" + String.format("%.2f", tax));
@@ -135,18 +153,205 @@ public class PizzaOrderingSystem {
         System.out.println("----------------------\n");
 
         RecentOrderExists = true;
-        // need to impletment actual code
     }
 
 
     public static void CompareTwoOrders(Scanner sc) {
-        System.out.println("Comparing two orders...\n");
-        
+        System.out.println("Compare Two Pizza Orders\n");
+
+        System.out.println("First Pizza:");
+        String firstType = "";
+        while (true) {
+            System.out.print("Enter pizza type (Margherita, Neapolitan, Marinara): ");
+            firstType = sc.nextLine().trim().toLowerCase();
+            if (firstType.equals("margherita") || 
+            firstType.equals("neapolitan") || 
+            firstType.equals("marinara")) {
+                break;
+            }
+            System.out.println("Invalid input. Please enter a valid pizza type.");
+        }
+        String firstSize = "";
+        while (true) {
+            System.out.print("Enter pizza size (Small, Medium, Large): ");
+            firstSize = sc.nextLine().trim().toLowerCase();
+            if (firstSize.equals("small") || 
+            firstSize.equals("medium") || 
+            firstSize.equals("large")) {
+                break;
+            }
+            System.out.println("Invalid input. Please enter a valid size.");
+        }
+        double firstPrice = GetPizzaPrice(firstType, firstSize);
+
+        System.out.println("\nSecond Pizza:");
+        String secondType = "";
+        while (true) {
+            System.out.print("Enter pizza type (Margherita, Neapolitan, Marinara): ");
+            secondType = sc.nextLine().trim().toLowerCase();
+            if (secondType.equals("margherita") || 
+            secondType.equals("neapolitan") || 
+            secondType.equals("marinara")) {
+                break;
+            }
+            System.out.println("Invalid input. Please enter a valid pizza type.");
+        }
+        String secondSize = "";
+        while (true) {
+            System.out.print("Enter pizza size (Small, Medium, Large): ");
+            secondSize = sc.nextLine().trim().toLowerCase();
+            if (secondSize.equals("small") || 
+            secondSize.equals("medium") || 
+            secondSize.equals("large")) {
+                break;
+            }
+            System.out.println("Invalid input. Please enter a valid size.");
+        }
+        double secondPrice = GetPizzaPrice(secondType, secondSize);
+
+        System.out.println("\nFirst Pizza: " + firstType + " (" + firstSize + ") - $" + String.format("%.2f", firstPrice));
+        System.out.println("Second Pizza: " + secondType + " (" + secondSize + ") - $" + String.format("%.2f", secondPrice));
+
+        if (firstPrice == secondPrice) {
+            System.out.println("Both pizzas cost the same.");
+        } else if (firstPrice < secondPrice) {
+            System.out.println("The first pizza is cheaper than the second pizza.");
+        } else {
+            System.out.println("The first pizza is more expensive than the second pizza.");
+        }
         // need to impletment actual code
     }
 
     public static void SimulateDailySpecial(Scanner sc) {
         System.out.println("Simulating Daily Special...\n");
+
+        int offer = (int)(Math.random() * 3);
+        System.out.println(offer);
+        double discount = 0.0;
+        String offerMessage = "";
+
+        switch (offer) {
+            case 0:
+                offerMessage = "Buy one get one half off on the next pizza!";
+                break;
+            case 1:
+                offerMessage = "20% off your total order!";
+                break;
+            case 2:
+                offerMessage = "Free side with every large pizza!";
+                break;
+        }
+
+        System.out.println("Today's Special Offer: " + offerMessage + "\n");
+
+        System.out.println("Place a new order to apply the special offer.\n");
+        DisplayPizzaMenu();
+        System.out.println("Please select a pizza from the menu above.");
+        String pizzaType = "";
+        while (true) {
+            System.out.print("Please write which pizza, Margherita, Neapolitan, or Marinara: ");
+            pizzaType = sc.nextLine().trim().toLowerCase();
+            if (pizzaType.equals("margherita") ||
+            pizzaType.equals("neapolitan") ||
+            pizzaType.equals("marinara")) {
+            break;
+            } 
+            System.out.println("Invalid input. Please enter a valid pizza.");
+        }
+        System.out.println("Please select a size (Small, Medium, Large).");
+        String pizzaSize = "";
+        while (true) {
+            System.out.print("Please write which size, Small, Medium, or Large: ");
+            pizzaSize = sc.nextLine().trim().toLowerCase();
+            if (pizzaSize.equals("small") ||
+            pizzaSize.equals("medium") ||
+            pizzaSize.equals("large")) {
+            break;
+            } 
+            System.out.println("Invalid input. Please enter a valid size.");
+        }
+        int quantity = InputValidation(sc, 1, 10, "Please enter a quantity between 1 and 10. ");
+        Double basePrice = GetPizzaPrice(pizzaType, pizzaSize);
+        double pizzaTotal = basePrice * quantity;
+        double addOnTotal = 0.0;
+
+        System.out.println("Would you like to add extra cheese for $1.50? (yes/no)");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+            addOnTotal += 1.50;
+            ExtraCheeseCount++;
+        }
+        else{
+            System.out.println("No extra cheese added.\n");
+        }
+        System.out.println("Would you like to add extra olives for $1.00? (yes/no)");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+            addOnTotal += 1.00;
+            ExtraOlivesCount++;
+        }
+        else{
+            System.out.println("No extra olives added.\n");
+        }   
+        if (offer == 2 && pizzaSize.equals("large")) {
+            System.out.println("You get a free side with your large pizza!");
+            System.out.println("You can choose either Garlic bread or a drink.");
+            System.out.println("1. Garlic bread");
+            System.out.println("2. Drink");
+            int sideChoice = InputValidation(sc, 1, 2, "Please select your free side (1-2): ");
+            if (sideChoice == 1) {
+                GarlicBreadCount++;
+                System.out.println("Garlic bread added as your free side.\n");
+            } else {
+                DrinkSideCount++;
+                System.out.println("Drink added as your free side.\n");
+            }
+        } else {   
+            System.out.println("Would you like to add Garlic bread for $4.00? (yes/no)");
+            if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+                addOnTotal += 4.00;
+                GarlicBreadCount++;
+            }
+            else{
+                System.out.println("No Garlic bread added.\n");
+            }       
+            System.out.println("Would you like to add a drink for $2.50? (yes/no)");
+            if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+                addOnTotal += 2.50;
+                DrinkSideCount++;
+            }
+            else{
+                System.out.println("No drink added.\n");
+            }
+        }
+
+        double PreTaxTotal = pizzaTotal + addOnTotal;
+        double tax = 0.10;
+
+        switch (offer) {
+            case 0: // buy one get other half off
+            if (quantity >= 2) {
+                discount = GetPizzaPrice(pizzaType, pizzaSize) / 2;
+            }
+                break;
+            case 1: // 20% off
+                discount = PreTaxTotal * 0.20;
+                break;
+                // case 3 would be the free large but that is nested in a if statement during the side selection
+        }
+
+        double Total = PreTaxTotal -discount + tax;
+
+        System.out.println("---- Your Receipt ----");
+        System.out.println(" Pizza Type: " + pizzaType);
+        System.out.println(" Pizza Size: " + pizzaSize);
+        System.out.println("  Add-Ons: " + String.format("%.2f", addOnTotal));
+        System.out.println(" Quantity: " + quantity);
+        System.out.println("Pre-Tax Total: $" + String.format("%.2f", PreTaxTotal));
+        System.out.println("Discount: $" + String.format("%.2f", discount));
+        System.out.println("Tax (10%): $" + String.format("%.2f", tax));
+        System.out.println("Total Amount Due: $" + String.format("%.2f", Total));
+        System.out.println("----------------------\n"); 
+
+        RecentOrderExists = true;
         // need to impletment actual code
     }
 
