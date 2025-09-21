@@ -66,7 +66,7 @@ public class PizzaOrderingSystem {
         }
         sc.close();
     }
-
+    //Place new order
     public static void PlaceNewOrder(Scanner sc) {
         System.out.println("Placing a new order...\n");
         DisplayPizzaMenu();
@@ -101,44 +101,74 @@ public class PizzaOrderingSystem {
         
         double pizzaTotal = BasePrice * pizzaQuantity;
         double addOnTotal = 0.0;
-
-        System.out.println("Would you like to add extra cheese for $1.50? (yes/no)");
-        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-            addOnTotal += 1.50;
-            ExtraCheeseCount++;
-        }
-        else{
-            System.out.println("No extra cheese added.\n");
-        }
-        System.out.println("Would you like to add extra olives for $1.00? (yes/no)");
-        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-            addOnTotal += 1.00;
-            ExtraOlivesCount++;
-        }
-        else{
-            System.out.println("No extra olives added.\n");
-        }
-               
-        System.out.println("Would you like to add Garlic bread for $4.00? (yes/no)");
-        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-            addOnTotal += 4.00;
-            GarlicBreadCount++;
-        }
-        else{
-            System.out.println("No Garlic bread added.\n");
+        //Input validation for add ons
+        boolean CorrectInput = false;
+        while (!CorrectInput) {
+            System.out.println("Would you like to add extra cheese for $1.50? (yes/no)");
+            String response = sc.nextLine().trim().toLowerCase();
+            if (response.equals("yes")) {
+                addOnTotal += 1.50 * pizzaQuantity;
+                ExtraCheeseCount++;
+                CorrectInput = true;
+            } else if (response.equals("no")) {
+                System.out.println("No extra cheese added.\n");
+                CorrectInput = true;
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
         }
 
-        System.out.println("Would you like to add a drink for $2.50? (yes/no)");
-        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-            addOnTotal += 2.50;
-            DrinkSideCount++;
+        CorrectInput = false;
+        while (!CorrectInput) {
+            System.out.println("Would you like to add extra Olives for $1.00? (yes/no)");
+            String response = sc.nextLine().trim().toLowerCase();
+            if (response.equals("yes")) {
+                addOnTotal += 1.00 * pizzaQuantity;
+                ExtraOlivesCount++;
+                CorrectInput = true;
+            } else if (response.equals("no")) {
+                System.out.println("No extra olives added.\n");
+                CorrectInput = true;
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
         }
-        else{
-            System.out.println("No drink added.\n");
+
+        CorrectInput = false;
+        while (!CorrectInput) {
+            System.out.println("Would you like to add Garlic Bread for $4.00? (yes/no)");
+            String response = sc.nextLine().trim().toLowerCase();
+            if (response.equals("yes")) {
+                addOnTotal += 4.00 * pizzaQuantity;
+                GarlicBreadCount++;
+                CorrectInput = true;
+            } else if (response.equals("no")) {
+                System.out.println("No Garlic Bread added.\n");
+                CorrectInput = true;
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
         }
+
+        CorrectInput = false;
+        while (!CorrectInput) {
+            System.out.println("Would you like to add a drink for $2.50? (yes/no)");
+            String response = sc.nextLine().trim().toLowerCase();
+            if (response.equals("yes")) {
+                addOnTotal += 2.50 * pizzaQuantity;
+                DrinkSideCount++;
+                CorrectInput = true;
+            } else if (response.equals("no")) {
+                System.out.println("No drink added.\n");
+                CorrectInput = true;
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
+        }
+
  
         double PreTaxTotal = pizzaTotal + addOnTotal;
-        double tax = 0.10;
+        double tax = PreTaxTotal * 0.10;
         double Total = PreTaxTotal + tax;
         
 
@@ -181,7 +211,7 @@ public class PizzaOrderingSystem {
 
     public static void CompareTwoOrders(Scanner sc) {
         System.out.println("Compare Two Pizza Orders\n");
-
+        //Piiza 1
         System.out.println("First Pizza:");
         String firstType = "";
         while (true) {
@@ -206,7 +236,7 @@ public class PizzaOrderingSystem {
             System.out.println("Invalid input. Please enter a valid size.");
         }
         double firstPrice = GetPizzaPrice(firstType, firstSize);
-
+        //Pizza 2
         System.out.println("\nSecond Pizza:");
         String secondType = "";
         while (true) {
@@ -242,12 +272,11 @@ public class PizzaOrderingSystem {
         } else {
             System.out.println("The first pizza is more expensive than the second pizza.");
         }
-        // need to impletment actual code
     }
 
     public static void SimulateDailySpecial(Scanner sc) {
         System.out.println("Simulating Daily Special...\n");
-
+        //randomaly picks one of three offers
         int offer = (int)(Math.random() * 3);
         System.out.println(offer);
         double discount = 0.0;
@@ -298,17 +327,25 @@ public class PizzaOrderingSystem {
         double pizzaTotal = basePrice * quantity;
         double addOnTotal = 0.0;
 
-        System.out.println("Would you like to add extra cheese for $1.50? (yes/no)");
-        if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-            addOnTotal += 1.50;
-            ExtraCheeseCount++;
+        Boolean CorrectInput = false;
+        while (!CorrectInput) {
+            System.out.println("Would you like to add extra cheese for $1.50? (yes/no)");
+            String response = sc.nextLine().trim().toLowerCase();
+            if (response.equals("yes")) {
+                addOnTotal += 1.50 * quantity;
+                ExtraCheeseCount++;
+                CorrectInput = true;
+            } else if (response.equals("no")) {
+                System.out.println("No extra cheese added.\n");
+                CorrectInput = true;
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
         }
-        else{
-            System.out.println("No extra cheese added.\n");
-        }
+        System.out.println("No extra cheese added.\n");
         System.out.println("Would you like to add extra olives for $1.00? (yes/no)");
         if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-            addOnTotal += 1.00;
+            addOnTotal += 1.00 * quantity;
             ExtraOlivesCount++;
         }
         else{
@@ -347,7 +384,8 @@ public class PizzaOrderingSystem {
         }
 
         double PreTaxTotal = pizzaTotal + addOnTotal;
-        double tax = 0.10;
+        double tax = PreTaxTotal * 0.10;
+
 
         switch (offer) {
             case 0: // buy one get other half off
@@ -396,7 +434,6 @@ public class PizzaOrderingSystem {
             else if (pizzaSize.equals("medium")) MarinaraMediumCount += quantity;
             else if (pizzaSize.equals("large")) MarinaraLargeCount += quantity;
         }
-        // need to implement actual code
     }
 
     public static void ModifyPreviousOrder(Scanner sc) {
@@ -509,7 +546,6 @@ public class PizzaOrderingSystem {
         newBasePrice = GetPizzaPrice(RecentPizzaType, RecentPizzaSize);
         RecentOrderTotal = newBasePrice * RecentPizzaQuantity;
         System.out.println(" Total: $" + String.format("%.2f", RecentOrderTotal) + "\n");
-        // need to implement actual code
     }
 
     public static void CancelPreviousOrder() {
@@ -555,7 +591,7 @@ public class PizzaOrderingSystem {
         } else {
             System.out.println("No orders placed today.\n");
         }
-        // need to implement actual code
+
     }
 
     public static void ViewSalesStatistics() {
