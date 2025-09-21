@@ -152,7 +152,30 @@ public class PizzaOrderingSystem {
         System.out.println("Total Amount Due: $" + String.format("%.2f", Total));
         System.out.println("----------------------\n");
 
+        //Recent Pizza details
         RecentOrderExists = true;
+        RecentPizzaType = pizzaType;
+        RecentPizzaSize = pizzaSize;
+        RecentPizzaQuantity = pizzaQuantity;
+        RecentOrderTotal = Total;
+
+        //Pizza Counter 
+        if (pizzaType.equals("margherita")) {
+            if (pizzaSize.equals("small")) MargheritaSmallCount += pizzaQuantity;
+            else if (pizzaSize.equals("medium")) MargheritaMediumCount += pizzaQuantity;
+            else if (pizzaSize.equals("large")) MargheritaLargeCount += pizzaQuantity;
+        } else if (pizzaType.equals("neapolitan")) {
+            if (pizzaSize.equals("small")) NeapolitanSmallCount += pizzaQuantity;
+            else if (pizzaSize.equals("medium")) NeapolitanMediumCount += pizzaQuantity;
+            else if (pizzaSize.equals("large")) NeapolitanLargeCount += pizzaQuantity;
+        } else if (pizzaType.equals("marinara")) {
+            if (pizzaSize.equals("small")) MarinaraSmallCount += pizzaQuantity;
+            else if (pizzaSize.equals("medium")) MarinaraMediumCount += pizzaQuantity;
+            else if (pizzaSize.equals("large")) MarinaraLargeCount += pizzaQuantity;
+        }
+
+        DailyTotalSales += Total;
+        TotalOrders++;
     }
 
 
@@ -352,17 +375,28 @@ public class PizzaOrderingSystem {
         System.out.println("----------------------\n"); 
 
         RecentOrderExists = true;
-        // need to impletment actual code
-    }
+        RecentPizzaType = pizzaType;
+        RecentPizzaSize = pizzaSize;
+        RecentPizzaQuantity = quantity;
+        RecentOrderTotal = Total;
 
-    public static void ViewDailySalesReport() {
-        System.out.println("Viewing Daily Sales Report...");
-        // need to impletment actual code
-    }
+        DailyTotalSales += Total;
+        TotalOrders++;
 
-    public static void ViewSalesStatistics() {
-        System.out.println("Viewing Sales Statistics...\n");
-        // need to impletment actual code
+        if(pizzaType.equals("margherita")) {
+            if (pizzaSize.equals("small")) MargheritaSmallCount += quantity;
+            else if (pizzaSize.equals("medium")) MargheritaMediumCount += quantity;
+            else if (pizzaSize.equals("large")) MargheritaLargeCount += quantity;
+        } else if (pizzaType.equals("neapolitan")) {
+            if (pizzaSize.equals("small")) NeapolitanSmallCount += quantity;
+            else if (pizzaSize.equals("medium")) NeapolitanMediumCount += quantity;
+            else if (pizzaSize.equals("large")) NeapolitanLargeCount += quantity;
+        } else if (pizzaType.equals("marinara")) {
+            if (pizzaSize.equals("small")) MarinaraSmallCount += quantity;
+            else if (pizzaSize.equals("medium")) MarinaraMediumCount += quantity;
+            else if (pizzaSize.equals("large")) MarinaraLargeCount += quantity;
+        }
+        // need to implement actual code
     }
 
     public static void ModifyPreviousOrder(Scanner sc) {
@@ -370,8 +404,112 @@ public class PizzaOrderingSystem {
             System.out.println("No recent order to modify.\n");
             return;
         }
-        System.out.println("Modifying the previous order...\n");
-        // need to impletment actual code
+
+        System.out.println("Previous order found:");
+        System.out.println(" Pizza Type: " + RecentPizzaType);
+        System.out.println(" Pizza Size: " + RecentPizzaSize);
+        System.out.println(" Quantity: " + RecentPizzaQuantity);
+        System.out.println(" Total: $" + String.format("%.2f", RecentOrderTotal) + "\n");
+        System.out.println("Select option to modify the previous order.");
+        System.out.println("1. Change Pizza Size");
+        System.out.println("2. Change Quantity");
+        System.out.println("3. Both Size and Quantity");
+        System.out.println("4. Cancel Modification and Return to Main Menu\n");
+
+        int modifyChoice = InputValidation(sc, 1, 4, "Please select an option (1-4): \n");
+        switch (modifyChoice) {
+            case 1:
+                // Change Pizza Size
+                String newSize = "";
+                while (true) {
+                    System.out.print("Enter new pizza size (Small, Medium, Large): ");
+                    newSize = sc.nextLine().trim().toLowerCase();
+                    if (newSize.equals("small") || 
+                    newSize.equals("medium") || 
+                    newSize.equals("large")) {
+                        break;
+                    }
+                    System.out.println("Invalid input. Please enter a valid size.");
+                }
+                RecentPizzaSize = newSize;
+                break;
+            case 2:
+                // Change Quantity
+                int newQuantity = InputValidation(sc, 1, 10, "Please enter a new quantity between 1 and 10: ");
+                RecentPizzaQuantity = newQuantity;
+                break;
+            case 3:
+                // Change Both Size and Quantity
+                String updatedSize = "";
+                while (true) {
+                    System.out.print("Enter new pizza size (Small, Medium, Large): ");
+                    updatedSize = sc.nextLine().trim().toLowerCase();
+                    if (updatedSize.equals("small") || 
+                    updatedSize.equals("medium") || 
+                    updatedSize.equals("large")) {
+                        break;
+                    }
+                    System.out.println("Invalid input. Please enter a valid size.");
+                }
+
+                int updatedQuantity = InputValidation(sc, 1, 10, "Please enter a new quantity between 1 and 10: ");
+                RecentPizzaSize = updatedSize;
+                RecentPizzaQuantity = updatedQuantity;
+                break;
+            case 4:
+                // Cancel Modification
+                System.out.println("Modification cancelled. Returning to main menu.\n");
+                return;
+        }
+
+        // Revert previous order counts and totals fir modification
+        if (RecentPizzaType.equals("Margherita")) {
+            if (RecentPizzaSize.equals("small")) MargheritaSmallCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) MargheritaMediumCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) MargheritaLargeCount -= RecentPizzaQuantity;
+        } else if (RecentPizzaType.equals("Neapolitan")) {
+            if (RecentPizzaSize.equals("small")) NeapolitanSmallCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) NeapolitanMediumCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) NeapolitanLargeCount -= RecentPizzaQuantity;
+        } else if (RecentPizzaType.equals("Marinara")) {
+            if (RecentPizzaSize.equals("small")) MarinaraSmallCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) MarinaraMediumCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) MarinaraLargeCount -= RecentPizzaQuantity;
+        }
+
+        DailyTotalSales -= RecentOrderTotal;
+        TotalOrders--;
+
+        double newBasePrice = GetPizzaPrice(RecentPizzaType, RecentPizzaSize);  
+        Double newOrderTotal = newBasePrice * RecentPizzaQuantity;
+
+        if(RecentPizzaType.equals("margherita")) {
+            if (RecentPizzaSize.equals("small")) MargheritaSmallCount += RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) MargheritaMediumCount += RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) MargheritaLargeCount += RecentPizzaQuantity;
+        } else if (RecentPizzaType.equals("neapolitan")) {
+            if (RecentPizzaSize.equals("small")) NeapolitanSmallCount += RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) NeapolitanMediumCount += RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) NeapolitanLargeCount += RecentPizzaQuantity;
+        } else if (RecentPizzaType.equals("marinara")) {
+            if (RecentPizzaSize.equals("small")) MarinaraSmallCount += RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) MarinaraMediumCount += RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) MarinaraLargeCount += RecentPizzaQuantity;
+        }
+
+        DailyTotalSales += newOrderTotal;
+        TotalOrders++;
+        RecentOrderTotal = newOrderTotal;
+        RecentOrderExists = true;
+
+        System.out.println("Order modified successfully. New details:");
+        System.out.println(" Pizza Type: " + RecentPizzaType);
+        System.out.println(" Pizza Size: " + RecentPizzaSize);
+        System.out.println(" Quantity: " + RecentPizzaQuantity);
+        newBasePrice = GetPizzaPrice(RecentPizzaType, RecentPizzaSize);
+        RecentOrderTotal = newBasePrice * RecentPizzaQuantity;
+        System.out.println(" Total: $" + String.format("%.2f", RecentOrderTotal) + "\n");
+        // need to implement actual code
     }
 
     public static void CancelPreviousOrder() {
@@ -382,6 +520,15 @@ public class PizzaOrderingSystem {
         System.out.println("Cancelling the previous order...");
         // need to impletment actual code
     }
+    public static void ViewDailySalesReport() {
+        System.out.println("Viewing Daily Sales Report...");
+        // need to impletment actual code
+    }
+
+    public static void ViewSalesStatistics() {
+
+    }
+
 
     public static int InputValidation(Scanner sc, int min, int max, String prompt) {
         while (true) {
