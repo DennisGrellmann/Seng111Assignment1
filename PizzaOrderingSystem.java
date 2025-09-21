@@ -463,15 +463,15 @@ public class PizzaOrderingSystem {
         }
 
         // Revert previous order counts and totals fir modification
-        if (RecentPizzaType.equals("Margherita")) {
+        if (RecentPizzaType.equals("margherita")) {
             if (RecentPizzaSize.equals("small")) MargheritaSmallCount -= RecentPizzaQuantity;
             else if (RecentPizzaSize.equals("medium")) MargheritaMediumCount -= RecentPizzaQuantity;
             else if (RecentPizzaSize.equals("large")) MargheritaLargeCount -= RecentPizzaQuantity;
-        } else if (RecentPizzaType.equals("Neapolitan")) {
+        } else if (RecentPizzaType.equals("neapolitan")) {
             if (RecentPizzaSize.equals("small")) NeapolitanSmallCount -= RecentPizzaQuantity;
             else if (RecentPizzaSize.equals("medium")) NeapolitanMediumCount -= RecentPizzaQuantity;
             else if (RecentPizzaSize.equals("large")) NeapolitanLargeCount -= RecentPizzaQuantity;
-        } else if (RecentPizzaType.equals("Marinara")) {
+        } else if (RecentPizzaType.equals("marinara")) {
             if (RecentPizzaSize.equals("small")) MarinaraSmallCount -= RecentPizzaQuantity;
             else if (RecentPizzaSize.equals("medium")) MarinaraMediumCount -= RecentPizzaQuantity;
             else if (RecentPizzaSize.equals("large")) MarinaraLargeCount -= RecentPizzaQuantity;
@@ -517,16 +517,59 @@ public class PizzaOrderingSystem {
             System.out.println("No recent order to cancel.\n");
             return;
         }
-        System.out.println("Cancelling the previous order...");
-        // need to impletment actual code
+
+        System.out.println("Previous order found!");
+        System.out.println("Canceling the order:");
+        if (RecentPizzaType.equals("margherita")) {
+            if (RecentPizzaSize.equals("small")) MargheritaSmallCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) MargheritaMediumCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) MargheritaLargeCount -= RecentPizzaQuantity;
+        } else if (RecentPizzaType.equals("neapolitan")) {
+            if (RecentPizzaSize.equals("small")) NeapolitanSmallCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) NeapolitanMediumCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) NeapolitanLargeCount -= RecentPizzaQuantity;
+        } else if (RecentPizzaType.equals("marinara")) {
+            if (RecentPizzaSize.equals("small")) MarinaraSmallCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("medium")) MarinaraMediumCount -= RecentPizzaQuantity;
+            else if (RecentPizzaSize.equals("large")) MarinaraLargeCount -= RecentPizzaQuantity;
+        }
+
+        DailyTotalSales -= RecentOrderTotal;
+        TotalOrders--;
+
+        RecentOrderExists = false;
+        RecentPizzaType = "";
+        RecentPizzaSize = "";
+        RecentPizzaQuantity = 0;
+        RecentOrderTotal = 0.0;
+
+        System.out.println("Order cancelled successfully. Returning to main menu.\n");
     }
     public static void ViewDailySalesReport() {
         System.out.println("Viewing Daily Sales Report...");
-        // need to impletment actual code
+        System.out.println("Total Orders: " + TotalOrders);
+        System.out.println("Total Sales: $" + String.format("%.2f", DailyTotalSales) + "\n");
+        if (TotalOrders > 0 && DailyTotalSales > 0) {
+            double averageOrderValue = DailyTotalSales / TotalOrders;
+            System.out.println("Average Order Value: $" + String.format("%.2f", averageOrderValue) + "\n");
+        } else {
+            System.out.println("No orders placed today.\n");
+        }
+        // need to implement actual code
     }
 
     public static void ViewSalesStatistics() {
+        System.out.println("Viewing Sales Statistics!\n");
+        System.out.println("Pizza Sales Breakdown:");
+        System.out.println(" Margherita - Small: " + MargheritaSmallCount + ", Medium: " + MargheritaMediumCount + ", Large: " + MargheritaLargeCount);
+        System.out.println(" Neapolitan - Small: " + NeapolitanSmallCount + ", Medium: " + NeapolitanMediumCount + ", Large: " + NeapolitanLargeCount);
+        System.out.println(" Marinara   - Small: " + MarinaraSmallCount + ", Medium: " + MarinaraMediumCount + ", Large: " + MarinaraLargeCount + "\n");
 
+        System.out.println("Add-On Sales Breakdown:");
+        System.out.println(" Extra Cheese: " + ExtraCheeseCount);
+        System.out.println(" Extra Olives: " + ExtraOlivesCount);
+        System.out.println(" Garlic Bread: " + GarlicBreadCount);
+        System.out.println(" Drinks: " + DrinkSideCount + "\n");
     }
 
 
